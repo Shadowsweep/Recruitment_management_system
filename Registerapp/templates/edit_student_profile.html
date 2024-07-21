@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+            margin: 0;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group input[type="file"] {
+            padding: 3px;
+        }
+        .form-group img {
+            margin-top: 10px;
+        }
+        button {
+            display: block;
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Edit Profile</h2>
+        <form method="post" enctype="multipart/form-data" action="{% url 'update_student_profile' %}">
+            {% csrf_token %}
+            <input type="hidden" name="enrollment_id" value="{{ student.enrollment_id }}">
+            
+            <div class="form-group">
+                <label for="id_first_name">Student Name:</label>
+                <input type="text" id="id_first_name" name="name" value="{{ student.name }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_resume">Resume:</label>
+                <input type="file" id="id_resume" name="resume">
+                {% if student.resume %}
+                    <img src="{{ student.resume.url }}" alt="resume" width="100">
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_gender">Gender:</label>
+                <select id="id_gender" name="gender" required>
+                    <option value="Male" {% if student.gender == 'Male' %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if student.gender == 'Female' %}selected{% endif %}>Female</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_profile_picture">Profile Picture:</label>
+                <input type="file" id="id_profile_picture" name="profile_picture">
+                {% if student.profile_picture %}
+                    <img src="{{ student.profile_picture.url }}" alt="Profile Picture" width="100">
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_email">Email:</label>
+                <input type="email" id="id_email" name="email" value="{{ student.email }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_city">City:</label>
+                <input type="text" id="id_city" name="city" value="{{ student.city }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_state">State:</label>
+                <input type="text" id="id_state" name="state" value="{{ student.state }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_tenth">Tenth Grade:</label>
+                <input type="text" id="id_tenth" name="tenth_grade" value="{{ student.tenth_grade }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_twelth">Twelfth Grade:</label>
+                <input type="text" id="id_twelth" name="twelth_grade" value="{{ student.twelth_grade }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                <input type="password" id="id_password" name="password" value="{{ student.password }}" required>
+            </div>
+            
+            <div class="button-container">
+                <button type="submit">Update Profile</button>
+                <button type="reset">Reset</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

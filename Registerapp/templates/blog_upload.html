@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Blog Post</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+            justify-content:center;
+            align-items:center;
+            display:flex;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            flex: 1;
+            margin-right: 10px;
+            align-self: center;
+        }
+        .form-group input, .form-group select {
+            flex: 2;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group input[type="file"] {
+            padding: 3px;
+        }
+        .form-group select {
+            width: 100%; /* Make the select take up the full width of the container */
+            padding: 10px; /* Add padding inside the select */
+            border: 1px solid #ccc; /* Border color */
+            border-radius: 4px; /* Rounded corners */
+            box-sizing: border-box; /* Include padding and border in element's total width and height */
+            font-family: 'Poppins', sans-serif; /* Use the Poppins font */
+            font-size: 16px; /* Font size */
+        }
+.form-group textarea {
+    width: 100%; /* Make the textarea take up the full width of the container */
+    padding: 10px; /* Add padding inside the textarea */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    font-family: 'Poppins', sans-serif; /* Use the Poppins font */
+    font-size: 16px; /* Font size */
+    resize: vertical; /* Allow only vertical resizing */
+}
+        button {
+            display: block;
+            width: 40%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Create new Blog Post</h2>
+    <form id="blogForm" method="post" enctype="multipart/form-data" action="{% url 'create_blog_post' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_user_type">User Type:</label>
+            <input type="text" id="user_type" name="username" value="Doctor" readonly >
+        </div>
+        <div class="form-group">
+            <label for="id_username">Username:</label>
+            {% comment %} <input type="text" id="id_username" name="username"> {% endcomment %}
+            <input type="text" id="id_username" name="username" value="{{ user.username }}" readonly>
+            {% comment %} <p>{{ profile.user.username }}</p> {% endcomment %}
+        </div>
+        <div class="form-group">
+            <label for="id_title">Title:</label>
+            <input type="text" id="id_title" name="title">
+        </div>
+        <div class="form-group">
+            <label for="id_image">Image:</label>
+            <input type="file" id="id_image" name="image">
+        </div>
+        <div class="form-group">
+            <label for="id_category">Category:</label>
+            <select id="id_category" name="category">
+                <option value="Mental Health">Mental Health</option>
+                <option value="Heart Disease">Heart Disease</option>
+                <option value="Covid19">Covid19</option>
+                <option value="Immunization">Immunization</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_summary">Summary:</label>
+            <input type="text" id="id_summary" name="summary">
+        </div>
+        <div class="form-group">
+            <label for="id_content">Content:</label>
+            <textarea id="id_content" name="content" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="button" onclick="submitForm('create')">Upload Post</button>
+            <button type="button" onclick="submitForm('draft')">Save as Draft</button>
+        </div>
+   
+    </form>
+    <script>
+   
+
+        function showSuccessAlert() {
+            console.log("sucess")
+            Swal.fire({
+                title: "Good job!",
+                text: "Post uploaded successfully!",
+                icon: "success",
+                timer: 3000  // Optional, in milliseconds
+            });
+        }
+    </script>
+    <script>
+        function submitForm(action) {
+            var form = document.getElementById('blogForm');
+            if (action === 'create') {
+                form.action = "{% url 'create_blog_post' %}";
+                showSuccessAlert();
+            } else if (action === 'draft') {
+                form.action = "{% url 'draft_blog' %}";
+            }
+            form.submit();
+        }
+        
+        
+        </script>
+
+
+</body>
+
+
+</html>
